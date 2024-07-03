@@ -6,7 +6,7 @@ import 'package:getx_crypto_app/pages/home_page.dart';
 
 void main() async {
   await registerServices();
-  await registerController();
+  await registerControllers();
   runApp(const MyApp());
 }
 

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:getx_crypto_app/controllers/assets_controller.dart';
+import 'package:getx_crypto_app/models/tracked_asset.dart';
 import 'package:getx_crypto_app/widgets/add_asset_dialog.dart';
+
+import '../utils.dart';
 
 class HomePage extends StatelessWidget {
   AssetsController assetsController = Get.find();
@@ -11,6 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: _appBar(
         context,
       ),
@@ -50,6 +55,9 @@ class HomePage extends StatelessWidget {
             _portfolioValue(
               context,
             ),
+            _trackedAssetsList(
+              context,
+            ),
           ],
         ),
       ),
@@ -64,6 +72,7 @@ class HomePage extends StatelessWidget {
       ),
       child: Center(
         child: Text.rich(
+          textAlign: TextAlign.center,
           TextSpan(
             children: [
               const TextSpan(
@@ -74,11 +83,79 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: "${assetsController.getPortfolioValue()}",
+                text:
+                    "${assetsController.getPortfolioValue().toStringAsFixed(2)}\n",
+                style: const TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const TextSpan(
+                text: "Portfolio value",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w200,
+                ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _trackedAssetsList(
+    BuildContext context,
+  ) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.sizeOf(context).width * 0.03,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: MediaQuery.sizeOf(context).height * 0.05,
+            child: const Text(
+              "Portfolio",
+              style: TextStyle(
+                fontSize: 10,
+                color: Colors.black38,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.sizeOf(context).height * 0.65,
+            width: MediaQuery.sizeOf(context).width,
+            child: ListView.builder(
+              itemCount: assetsController.trackedAssets.length,
+              itemBuilder: (context, index) {
+                TrackedAsset trackedAsset =
+                    assetsController.trackedAssets[index];
+                return ListTile(
+                  leading: Image.network(
+                    getCryptoImageURL(trackedAsset.name!),
+                  ),
+                  title: Text(
+                    trackedAsset.name!,
+                  ),
+                  subtitle: Text(
+                      "USD: ${assetsController.getAssetPrice(trackedAsset.name!).toStringAsFixed(2)}"),
+                  trailing: Text(
+                    trackedAsset.amount.toString(),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

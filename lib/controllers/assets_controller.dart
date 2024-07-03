@@ -19,7 +19,7 @@ class AssetsController extends GetxController {
   Future<void> _getAssets() async {
     loading.value = true;
     HTTPService httpService = Get.find();
-    var responseData = await httpService.get("curencies");
+    var responseData = await httpService.get("currencies");
     CurrenciesListAPIResponse currenciesListAPIResponse = CurrenciesListAPIResponse.fromJson(responseData,);
     coinData.value = currenciesListAPIResponse.data ?? [];
     loading.value = false;
