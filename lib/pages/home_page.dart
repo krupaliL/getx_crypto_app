@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:getx_crypto_app/controllers/assets_controller.dart';
 import 'package:getx_crypto_app/models/tracked_asset.dart';
+import 'package:getx_crypto_app/pages/details_page.dart';
 import 'package:getx_crypto_app/widgets/add_asset_dialog.dart';
 
 import '../utils.dart';
@@ -151,6 +152,16 @@ class HomePage extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
+                  onTap: () {
+                    Get.to(
+                      () {
+                        return DetailsPage(
+                          coin:
+                              assetsController.getCoinData(trackedAsset.name!)!,
+                        );
+                      },
+                    );
+                  },
                 );
               },
             ),
