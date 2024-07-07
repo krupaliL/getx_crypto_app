@@ -46,7 +46,7 @@ class AddAssetDialog extends StatelessWidget {
         child: Material(
           child: Container(
             height: MediaQuery.sizeOf(context).height * 0.40,
-            width: MediaQuery.sizeOf(context).width * 0.80,
+            width: MediaQuery.sizeOf(context).width * 0.85,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(
                 15,
